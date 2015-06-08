@@ -1,15 +1,19 @@
 $(document).ready(function(){
     var repoURL = "https://api.github.com/users/mralexgray/repos";
+    var followersURL = "https://api.github.com/users/mralexgray/followers";
+    
     var $repoTable = $('#repoTable');
+    var $followers = $('#comboBox');
     var $loader = $('#loader');
-     
+         
     $loader.hide();
     fetchData(repoURL, $loader, "Repo Table", $repoTable);
+    fetchData(followersURL, $loader, "Followers List", $followers);
 
 });
 
 
-function fetchData (URL, loaderElement, fetch, table) {
+function fetchData (URL, loaderElement, fetch, dataElement) {
     $.ajax({
     type: 'GET',
     dataType: 'json',
@@ -17,15 +21,23 @@ function fetchData (URL, loaderElement, fetch, table) {
     cache: false,
     beforeSend: function(){
         loaderElement.show();
-        $('table').hide;
+        $('dataElement').hide;
     },
     complete: function(){
         loaderElement.hide();
         $('input').show();
-        table.show();
+        dataElement.show();
     },
     success: function(json){
-        populateRepoTable(json, table);
+        if (fetch == "Repo Table"){
+            populateRepoTable(json, dataElement);
+        }
+        else if (fetch == "Followers List"){
+            populateComboBox(json, dataElement);
+        }
+        else {
+            populateRecentActivities(json, dataElement);
+        }
         
     }
 });
@@ -37,4 +49,22 @@ function populateRepoTable(json, repoTable){
    }
 }
 
+function populateComboBox(json, comboBox){
+    for(var i=0; i<json.length; i++){
+        comboBox.append("<option name="+i+"value="+json[i].login+">"+json[i].login+"</option>");
+    }
+}
 
+function populateRecentActivities(json, activites){
+    var recentDate, recent;
+    for(var i=0; i<json.length; i++){
+        var date = new Date(json[i].created_at);
+        if(i=0){
+            recentDate = date;
+        }
+        if(date>recentDate){
+            recent = i;
+        }     
+    }
+    activities.append("<ul><li>"+json[recent].id+"</li><li>"+json[recent].type+"</li></ul>");
+}
