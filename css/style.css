@@ -1,0 +1,36 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body, html{}
+
+#mainWrapper{
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+    max-width: 1000px;
+}
+
+input {
+    width: auto;
+    height: auto;
+    margin: 2% auto;
+    display: none;
+}
+
+#repoTable {
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+#loader {
+    display: none;
+}
+
+table, th, tr {
+    margin: 0 auto;
+    border: 1px solid #2196f3;
+}
