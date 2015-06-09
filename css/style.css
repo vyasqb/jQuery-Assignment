@@ -38,6 +38,10 @@ input {
 #details{
     width:100%;
     height: 70px;
+    	
+}
+ul {
+    list-style-type:none;
 }
 table, th, tr {
     margin: 0 auto;
